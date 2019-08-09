@@ -1,0 +1,43 @@
+import os
+import subprocess
+import sys
+ips = []
+aux = ''
+file = open('lmaoo.txt', 'w')
+for i in range (1,10):
+    try:
+        aux = subprocess.check_output(["ping","-w", "1", "-n", "1", "et0{}".format(i)])
+        aux = str(aux)
+        file.write("\n")
+        file.write("et0{}".format(i))
+        file.writelines(aux[aux.find('['):aux.find(']')+1])
+    except:
+        pass
+for i in range(10,36):
+    try:
+        aux = subprocess.check_output(["ping", "-w", "1", "-n", "1", "et{}".format(i)])
+        aux = str(aux)
+        file.write("\n")
+        file.write("et{}".format(i))
+        file.writelines(aux[aux.find('['):aux.find(']')+1])
+    except:
+        pass
+
+file.close()
+file = open('lmaoo.txt', 'r')
+macs = open('macs.txt', 'w')
+
+for aux in file:
+    try:
+        aux = str(aux)
+        macs.write("\n")
+        macs.write(aux)
+        aux = aux[aux.find('[')+1:aux.find(']')]
+        aux2 = subprocess.check_output(['arp', '-a', '{}'.format(aux)])
+        aux2 = str(aux2)
+        macs.write("           ")
+        macs.writelines(aux2[aux2.find(aux):aux2.find('dina')])
+        macs.write('\n')
+    except: pass
+macs.close()
+file.close()
